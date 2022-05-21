@@ -1,0 +1,115 @@
+:root {
+  /* universal color scheme */
+  --jeop-color: hsl(234, 89%, 27%);
+  --jeop-color-d: hsl(234, 89%, 13%);
+  --jeop-color-l: hsl(234, 89%, 40%);
+  --q-color: 	hsl(39, 96%, 62%);
+}
+
+body {
+  /* color */
+  background-color: var(--jeop-color-d);
+  color: white;
+  /* generaal text properties */
+  text-align: center;
+  font-family: Helvetica, Sans-Serif;
+  font-weight: bolder;
+}
+
+
+.board {
+  /* take up most of the view height */
+  height: 97vh;
+  display: flex;
+  opacity: 1;
+  transition: 400ms;
+}
+
+.category-column {
+  /* equally space the category columns */
+  flex: 1;
+  /* allow question "rows" to be flexbox */
+  display: flex;
+  flex-direction: column;
+}
+
+.category-title,
+.question {
+  /* equally space the game cards */
+  flex: 1;
+  /* align information in center of div*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* dictates spacing between game cards */
+  margin: 0.2rem;
+  /* styling */
+  background-color: var(--jeop-color);
+  text-transform: uppercase;
+  box-shadow: 0 0 0.4rem black inset;
+  text-shadow: 0.2rem 0.2rem black;
+  /* makes it so you cant highlight the text*/
+  user-select:none;
+}
+
+/* styling */
+.category-title {
+  font-size: 2vw;
+  /* a bit more of a gap under the category titles */
+  margin-bottom: 0.6rem;
+}
+.question {
+  font-size: 5vw;
+  color: var(--q-color);
+  cursor: pointer;
+  transition: 400ms;
+}
+.question:hover {
+  background-color: var(--jeop-color-l);
+}
+
+.cleared,
+.cleared:hover {
+  color: transparent;
+  background-color: var(--jeop-color);
+  text-shadow: none;
+  cursor: auto;
+}
+
+/* this is the card that shows up once a question is selected */
+/* could be consolidated but separate for debugging atm */
+.question-prompt {
+
+  /* align information in center of div*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* position it on the page in front of board */
+  position: absolute; top: 0; left: 0;
+  margin-left: 1vw;
+  margin-right: 1vw;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 96vh;
+  width: 98vw;
+  z-index: 1;
+  box-sizing: border-box;
+
+  /* styling */
+  background-color: var(--jeop-color);
+  color: white;
+  font-family: Times, Serif;
+  font-size: 8vw;
+  text-align: center;
+
+  /* fading effect */
+  opacity: 0;
+  transition: 400ms;
+
+  box-shadow: 0 0 0.6rem black inset;
+  text-shadow: 0.2rem 0.2rem black;
+  /* makes it so you cant highlight the text*/
+  user-select:none;
+
+}
