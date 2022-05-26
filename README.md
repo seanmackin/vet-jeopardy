@@ -10,3 +10,7 @@ titles and questions should be hardcoded at the bottom of the script.js file.
 this is NOT an online or server-based application, but could be made into one
 fairly easily. this does not support variable players or score-tallying - this
 should be left up to the instructor (assuming classroom usage, as designed).
+
+
+site to play:
+https://seanmackin.github.io/vet-jeopardy/
