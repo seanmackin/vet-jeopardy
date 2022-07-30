@@ -16,6 +16,16 @@ body {
   font-weight: bolder;
 }
 
+p {
+  transition: 500ms
+}
+
+img {
+  width: 50vw;
+  height: auto;
+  border-radius: 3vw;
+  margin-top: 3vh;
+}
 
 .board {
   /* take up most of the view height */
@@ -91,6 +101,7 @@ body {
   margin-right: 1vw;
   margin-top: 2vh;
   margin-bottom: 2vh;
+  padding: 3vw;
   height: 96vh;
   width: 98vw;
   z-index: 1;
@@ -100,7 +111,7 @@ body {
   background-color: var(--jeop-color);
   color: white;
   font-family: Times, Serif;
-  font-size: 8vw;
+  font-size: 6vw;
   text-align: center;
 
   /* fading effect */

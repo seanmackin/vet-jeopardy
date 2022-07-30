@@ -1,9 +1,18 @@
+/* -------------------------------------------------------------------------- //
+this script is designed for a static webpage that plays a game of vet jeopardy.
+it simply chains events together to go through the game phases. score-keeping
+should be done by the host/teams, as it's too annoying to implement into the
+board itself lol. the q/a's are hardcoded since its a static page.
+----------------------------------------------------------------------------- */
+
 function main() {
+
   // insert the titles into the title divs
   const titleDivs = document.querySelectorAll(".category-title");
   titleDivs.forEach((div,i) => {
     div.textContent = categoryTitles[i];
   });
+
   // gather up all the question divs and add click event listeners
   const questionDivs = document.querySelectorAll(".question");
   questionDivs.forEach(div => {
@@ -14,91 +23,270 @@ function main() {
 // ensure that the DOM loads before we call our game script
 document.addEventListener("DOMContentLoaded", main);
 
-// helper functions (event listener callbacks) ---------- //
+// helper functions (event listener callbacks) ------------------------------ //
 
 // callback for when a question item is clicked
 function questionClicked(evt) {
 
-  // set the current question target to "cleared"
+  // set the current question target to "cleared" i.e. off the board
   evt.target.classList.add("cleared");
-  // get rid of the event listener on that item
   evt.target.removeEventListener("click", questionClicked);
 
   // create a div to be the question prompt displayed
   const div = document.createElement("div");
-  // with the appropriate question as text content
+  div.classList.add("question-prompt");
+  // with the appropriate question html as content
   const index = parseInt(evt.target.id)-1;
-  div.textContent = questionArray[index];
-  // add the prompt class to the div
-  div.classList.add("question-prompt")
-  // add the event listener for clicking on a prompt
-  div.addEventListener("click", promptClicked);
+  let fontModifier = "";
+  // if it's a long question, we decrease the question font-size
+  if (questionArray[index].length > 200) fontModifier = ` style="font-size: 5vw" `
+  if (questionArray[index].length > 300) fontModifier = ` style="font-size: 4vw" `
+  div.innerHTML = `<p${fontModifier}>` + questionArray[index] + "</p>";
 
-  // fade the board out
+  // keep question # in div id information for answer # later
+  div.setAttribute("id", index);
+  // add the event listener for clicking on a prompt
+  div.addEventListener("click", answerRequested, false);
+
+  // fade the board out / fade the question in
   document.querySelector(".board").style.opacity = 0;
-  // add the document to the DOM
   document.documentElement.append(div);
-  // fade the board in
   setTimeout(function(){
     document.querySelector(".question-prompt").style.opacity = 1;
   },500);
 
 }
 
-// callback for when a question prompt has been completed
-function promptClicked(evt) {
+// callback for when the answer has been requested
+function answerRequested(evt) {
 
-  // fade out the question prompt and in the board
-  evt.target.style.opacity = 0;
+  // pre-query useful DOM element
+  const div = document.querySelector(".question-prompt");
+
+  // fade question out
+  document.querySelector(".question-prompt p").style.opacity = 0;
+
+
+  // fade the answer in
   setTimeout(function(){
-    document.querySelector(".board").style.opacity = 1;
-  },500);
-  // remove the old question prompt (invisible) from the DOM
-  setTimeout(function(){
-    evt.target.remove();
-  },500);
+    const index = parseInt(div.id);
+    const style = ` style="opacity: 0; color: yellow"`
+    div.innerHTML = `<p ${style}>` + answerArray[index] + `</p>`;
+    setTimeout(function(){
+      document.querySelector(".question-prompt p").style.opacity = 1;
+    }, 0);
+  }, 500);
+
+
+  // have question disappear on click
+  div.addEventListener("click", promptComplete, false);
 
 }
 
+// callback for when a question prompt has been completed
+function promptComplete(evt) {
+
+  const div = document.querySelector(".question-prompt");
+
+  // fade out the question prompt and in the board
+  div.style.opacity = 0;
+  setTimeout(function(){
+    document.querySelector(".board").style.opacity = 1;
+  }, 500);
+  // remove the old question prompt (invisible) from the DOM
+  setTimeout(function(){
+    div.remove();
+  }, 500);
+
+}
+
+// hard-coded q's and a's since this is a static web-page ------------------- //
+
 const categoryTitles = [
-  "Category One",
-  "Category Two",
-  "Category Three",
-  "Category Four",
-  "Category Five",
-  "Category Six",
+  "General Knowledge",
+  "Small Animal",
+  "Analgesia and Pain",
+  "Monitoring",
+  "CPR",
+  "Misc."
 ]
 
-// hard-coded so it's easy to modify
 const questionArray = [
-  "How much wood would a wood-chuck chuck if a wood-chuck could chuck wood?",
-  "category 1 question 2",
-  "category 1 question 3",
-  "category 1 question 4",
-  "category 1 question 5",
-  "What is Sean's favourite food?",
-  "category 2 question 2",
-  "category 2 question 3",
-  "category 2 question 4",
-  "category 2 question 5",
-  "category 3 question 1",
-  "category 3 question 2",
-  "category 3 question 3",
-  "category 3 question 4",
-  "category 3 question 5",
-  "category 4 question 1",
-  "category 4 question 2",
-  "category 4 question 3",
-  "category 4 question 4",
-  "category 4 question 5",
-  "category 5 question 1",
-  "category 5 question 2",
-  "category 5 question 4",
-  "category 5 question 5",
-  "category 5 question 3",
-  "category 6 question 1",
-  "category 6 question 2",
-  "category 6 question 3",
-  "category 6 question 4",
-  "category 6 question 5"
+  // category: general knowledge -----------------------------------------------
+  `This classification is given to each patient prior to anesthesia and
+   may provide an estimate about the anticipated anesthetic risk of said patient
+   regarding its physical status.`
+   ,
+  `This monitoring device allows for the confirmination of endotracheal
+   intubation and is very valuable during CPR.`
+   ,
+  `This certain breed of larger animal species is very sensitive to anesthetic
+   agents, especially alpha-2 agonists such as Xylazine.`
+  ,
+  `Benzodiazepines, Propofol, Etomidate, and Alfaxalone all work on this
+   receptor as an agonist.`
+  ,
+  `Due to its depressing effects on the adrenal glands and possible accumulation,
+   this drug should not be given as a CRI.`
+  ,
+  // category: small animal ----------------------------------------------------
+  `This induction drug is an alternative to Ketamine for intramuscular
+   sedation in small animals.`
+  ,
+  `You premedicated a two-year-old morbidly obese dog with Dexdomitor 5mcg/kg IM
+   and butorphanol 0.2mg/kg IM for radiographs. The injection was done into the
+   epaxial muscles, with a 22-gauge half-inch needle. After 20 minutes, no
+   sedation is observed, meaning the adminsterer made this error.`
+   ,
+  `You are anesthetizing a two-year-old bulldog. The anesthesia was without
+   complications. Twenty-four hours after, the owner calls you that the dog now
+   has increased inspiratory effort; this is the most likely cause.`
+  ,
+  `You obtain the following blood gas values from a patient with a history of a
+   liver tumor. The patient presented with vomiting and decreased appetite and
+   the following blood gas abnormalities: <br/><span style="color: red">pH: 1.0,
+   P<sub>a</sub>CO<sub>2</sub>: 50mmHg, HCO<sub>3</sub> 10mmol/L.</span>`
+  ,
+  `This nerve will block the soft and hard palate, canines, incisors,
+   molars/premolars, and soft palate.`
+  ,
+  // category: analgesia and pain ----------------------------------------------
+  `This pain assessment tool is validated for small animals (dogs) with
+   acute post-surgical pain.`
+  ,
+  `A 18 year old m/n DSH cat is presented with a small intestinal obstructing
+   foreign body. After a physical examination, you determine that the cat is
+   approximately 10% dehydrated and depressed. These drugs should not be used
+   for sedation / premedication.`
+  ,
+  `A horse is presented with cellulitis in the right hind leg. This phenomenon,
+   associated with pain processing without analgesia, will occur <br/>
+   within 24 hours.`
+  ,
+  `These four processes occur from initial trauma/insult to a sensed
+   pain response.`
+  ,
+  `This is the only type of a pain that does not involve nociceptors.`
+  ,
+  // category: monitoring ------------------------------------------------------
+  `This monitor detects the saturation of oxygenated hemoglobin.`
+  ,
+  `This capnography waveform could represent this (three possbilites).
+   <br/><img src="./public/waveform.jpg"/>`
+  ,
+  `You are making a bet with a colleague about arterial partial pressure of
+   CO<sub>2</sub>: The endtidal CO<sub>2</sub> of an anesthetized dog is 45mmHg;
+   this is a correct approximation the arterial P<sub>a</sub>CO<sub>2</sub>.`
+   ,
+  `These two variables determine blood pressure.`
+  ,
+  `A healthy dog anesthetized for an orthopedic procedure is hypotensive and
+   bradycardic. The endtidal isoflurane concentration is 1.6%. You chose to
+   administer atropine to treat the HR and the hypotension. Several minutes after
+   administration HR and BP increase within normal limits, but now also the dog
+   became light and the endtidal isoflurane concentration dropped to 1.3%. Why?`
+  ,
+  // category: CPR -------------------------------------------------------------
+  `Baby Shark, Stayin' Alive, and Another one Bites the dust can all be used for
+   this purpose during CPR.`
+  ,
+  `This drug can be used to treat ventricular tachycardia.`
+  ,
+  `This is the only monitor that can accurately assess quality of cardiac
+   compressions and perfusion.`
+  ,
+  `This comprehensive guidline was developed in 2012 to aid veterinarians with
+   the performance of CPR.`
+  ,
+  "Treatment for ventricular fibrillation requires this device."
+  ,
+  // category: miscellaneous ---------------------------------------------------
+  `You are presented with a 7-year-old German Shepard. After physical exam and
+   abdominal radiographs, a GDV is diagnosed. You also determine that the patient
+   is significantly dehydrated, with an elevated heart rate of 140bpm, weak
+   pulses, tacky mucous membranes, tachypnea (60 breaths per min) and hypotension
+   (SAP 70 mmHg). This is the reason why.`
+   ,
+  `This drug can cause the following arrythmia in dogs.
+   <br/><img src="./public/arrythmia.png"/>`
+  ,
+  `You have to amputate the first phalanx of the right-front-limb of a kitten
+   and would like to use a local block (ring block) to provide adjunct analgesia.
+   This local anesthetic would provide the longest lasting effect.`
+  ,
+  `These two variables determine cardiac output.`
+  ,
+  `This technique is used to intubate large ruminants.`
+]
+
+const answerArray = [
+  // category: general knowledge -----------------------------------------------
+  `What is ASA status?`
+  ,
+  `What is capnography?`
+  ,
+  `What is a Brahman?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  // category: small animal ----------------------------------------------------
+  `What is Alfaxalone?`
+  ,
+  `What is intrafat injection / insufficient sedation?`
+  ,
+  `What is aspiration pneumonia? (Brachycephalic are of higher risk for
+   regurgitation and aspiration at some point during anesthesia.)`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  // category: analgesia and pain ----------------------------------------------
+  `What is the Glasgow pain scale?`
+  ,
+  `What are acepromazine and alpha-2 agonists?`
+  ,
+  `What is wind-up pain?`
+  ,
+  `What is transduction, transmission, modulation, and perception?`
+  ,
+  `What is neuropathic pain?`
+  ,
+  // category: monitoring ------------------------------------------------------
+  `What is the SpO<sub>2</sub> monitor?`
+  ,
+  `What is Curare cleft? <br/>
+   What is bucking the ventilator? <br/>
+   What is movement by the surgeon? <br/>`
+  ,
+  `What is 47-50 mmHg?`
+  ,
+  `What are stroke volume and heart rate?`
+  ,
+  `What is increased CO output resulting in increased perfusion of tissue and
+   redistribution of isoflurane?`
+  ,
+  // category: CPR -------------------------------------------------------------
+  `What is rate of compressions?`
+  ,
+  `What is lidocaine?`
+  ,
+  `What is a capnograph?`
+  ,
+  `What is ARECOVER?`
+  ,
+  `What is a defibrillator?`
+  ,
+  // category: miscellaneous ---------------------------------------------------
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
+  ,
+  `What is ANSWER NEEDED?`
 ]
