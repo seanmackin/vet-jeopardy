@@ -144,8 +144,8 @@ const questionArray = [
   ,
   `You obtain the following blood gas values from a patient with a history of a
    liver tumor. The patient presented with vomiting and decreased appetite and
-   the following blood gas abnormalities: <br/><span style="color: red">pH: 1.0,
-   P<sub>a</sub>CO<sub>2</sub>: 50mmHg, HCO<sub>3</sub> 10mmol/L.</span>`
+   the following blood gas abnormalities: <br/><span style="color: red">pH: 7.0,
+   P<sub>a</sub>CO<sub>2</sub>: 40mmHg, HCO<sub>3</sub> 10mmol/L.</span>`
   ,
   `This nerve will block the soft and hard palate, canines, incisors,
    molars/premolars, and soft palate.`
@@ -175,19 +175,19 @@ const questionArray = [
    <br/><img src="./public/waveform.jpg"/>`
   ,
   `You are making a bet with a colleague about arterial partial pressure of
-   CO<sub>2</sub>: The endtidal CO<sub>2</sub> of an anesthetized dog is 45mmHg;
-   this is a correct approximation the arterial P<sub>a</sub>CO<sub>2</sub>.`
+   CO<sub>2</sub>. The end-tidal CO<sub>2</sub> of an anesthetized dog is 45mmHg.
+   This is a correct approximation for the arterial P<sub>a</sub>CO<sub>2</sub>:`
    ,
   `These two variables determine blood pressure.`
   ,
   `A healthy dog anesthetized for an orthopedic procedure is hypotensive and
-   bradycardic. The endtidal isoflurane concentration is 1.6%. You chose to
+   bradycardic. The end-tidal isoflurane concentration is 1.6%. You chose to
    administer atropine to treat the HR and the hypotension. Several minutes after
    administration HR and BP increase within normal limits, but now also the dog
-   became light and the endtidal isoflurane concentration dropped to 1.3%. Why?`
+   became light and the end-tidal isoflurane concentration dropped to 1.3%. Why?`
   ,
   // category: CPR -------------------------------------------------------------
-  `Baby Shark, Stayin' Alive, and Another one Bites the dust can all be used for
+  `Baby Shark, Stayin' Alive, and Another One Bites the Dust can all be used for
    this purpose during CPR.`
   ,
   `This drug can be used to treat ventricular tachycardia.`
@@ -227,9 +227,9 @@ const answerArray = [
   ,
   `What is a Brahman?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is the GABBA receptor?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is Etomidate?`
   ,
   // category: small animal ----------------------------------------------------
   `What is Alfaxalone?`
@@ -239,9 +239,9 @@ const answerArray = [
   `What is aspiration pneumonia? (Brachycephalic are of higher risk for
    regurgitation and aspiration at some point during anesthesia.)`
   ,
-  `What is ANSWER NEEDED?`
+  `What is metabolic acidosis?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is a maxillary nerve block?`
   ,
   // category: analgesia and pain ----------------------------------------------
   `What is the Glasgow pain scale?`
@@ -261,32 +261,32 @@ const answerArray = [
    What is bucking the ventilator? <br/>
    What is movement by the surgeon? <br/>`
   ,
-  `What is 47-50 mmHg?`
+  `What is 47-50 mmHg? <br/> (The arterial CO<sub>2</sub> should be 3-5 mmHg higher then the end-tidal.)`
   ,
-  `What are stroke volume and heart rate?`
+  `What are cardiac output and systemic vascular resistance?`
   ,
-  `What is increased CO output resulting in increased perfusion of tissue and
-   redistribution of isoflurane?`
+  `What is increased cardiac output (increased perfusion of tissue and
+   redistribution of isoflurane)?`
   ,
   // category: CPR -------------------------------------------------------------
-  `What is rate of compressions?`
+  `What is the rate of cardiac compressions?`
   ,
   `What is lidocaine?`
   ,
   `What is a capnograph?`
   ,
-  `What is ARECOVER?`
+  `What are the RECOVER guidelines?`
   ,
   `What is a defibrillator?`
   ,
   // category: miscellaneous ---------------------------------------------------
-  `What is ANSWER NEEDED?`
+  `What is hypovolemic shock?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is dexmedetomidine or glycopyrrolate?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is bupivacaine?`
   ,
-  `What is ANSWER NEEDED?`
+  `What are heart rate and stroke volume?`
   ,
-  `What is ANSWER NEEDED?`
+  `What is blind intubation with digital palpation?`
 ]
